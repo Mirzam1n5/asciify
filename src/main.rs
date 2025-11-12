@@ -3,6 +3,13 @@ use image::{GenericImageView, imageops::FilterType};
 use std::env;
 use std::fs;
 
+pub struct ColoredChar {
+    pub character: char,
+    pub r: u8,
+    pub g: u8,
+    pub b: u8,
+}
+
 fn generate_unique_filename() -> String {
     for i in 1.. {
         let filename = format!("ascii_output_{}.png", i);
@@ -33,23 +40,28 @@ fn main() {
 
     let resized = image::imageops::resize(&img, target_width, new_height, FilterType::Nearest);
 
-    let mut ascii: Vec<Vec<char>> = Vec::new();
+    let mut ascii: Vec<Vec<ColoredChar>> = Vec::new();
 
     for y in 0..resized.height() {
-        let mut row: Vec<char> = Vec::new();
-        for x in 0..resized.width() {
-            let pixel = resized.get_pixel(x, y);
-            let r = pixel[0] as u32;
-            let g = pixel[1] as u32;
-            let b = pixel[2] as u32;
+    let mut row: Vec<ColoredChar> = Vec::new();
+    for x in 0..resized.width() {
+        let pixel = resized.get_pixel(x, y);
+        let r = pixel[0];
+        let g = pixel[1];
+        let b = pixel[2];
 
-            let avg_brightness = (0.299 * r as f32 + 0.587 * g as f32 + 0.114 * b as f32) as u8;
-            let index = ((255 - avg_brightness) as usize * (ASCII_CHARS.len() - 1)) / 255;
-            let c = ASCII_CHARS[index] as char;
+        let avg_brightness = (0.299 * r as f32 + 0.587 * g as f32 + 0.114 * b as f32) as u8;
+        let index = ((255 - avg_brightness) as usize * (ASCII_CHARS.len() - 1)) / 255;
+        let c = ASCII_CHARS[index] as char;
 
-            row.push(c);
-        }
-        ascii.push(row);
+        row.push(ColoredChar {
+            character: c,
+            r,
+            g,
+            b,
+        });
+    }
+    ascii.push(row);
     }
 
    let filename = generate_unique_filename();
