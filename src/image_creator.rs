@@ -9,7 +9,7 @@ pub fn create_image_from_ascii(ascii: &Vec<Vec<ColoredChar>>, output_path: &str)
 
     let char_width = 8;
     let char_height = 12;
-
+    
     let img_width = ascii[0].len() as u32 * char_width;
     let img_height = ascii.len() as u32 * char_height;
 

@@ -28,7 +28,7 @@ fn main() {
         eprintln!("Usage: {} <image_path>", args[0]);
         return;
     }
-
+    
     let img_path = &args[1];
     let img = image::open(img_path).expect("Failed to open image");
 
