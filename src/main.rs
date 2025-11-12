@@ -28,7 +28,7 @@ fn main() {
         eprintln!("Usage: {} <image_path>", args[0]);
         return;
     }
-    
+
     let img_path = &args[1];
     let img = image::open(img_path).expect("Failed to open image");
 
@@ -38,7 +38,7 @@ fn main() {
     let scale_ratio = target_width as f32 / orig_width as f32;
     let new_height = (orig_height as f32 * scale_ratio * char_aspect_ratio) as u32;
 
-    let resized = image::imageops::resize(&img, target_width, new_height, FilterType::Nearest);
+    let resized = image::imageops::resize(&img, target_width, new_height, FilterType::Gaussian);
 
     let mut ascii: Vec<Vec<ColoredChar>> = Vec::new();
 
