@@ -51,7 +51,7 @@ fn main() {
         let b = pixel[2];
 
         let avg_brightness = (0.299 * r as f32 + 0.587 * g as f32 + 0.114 * b as f32) as u8;
-        let index = ((255 - avg_brightness) as usize * (ASCII_CHARS.len() - 1)) / 255;
+        let index = (avg_brightness as usize * (ASCII_CHARS.len() - 1)) / 255;
         let c = ASCII_CHARS[index] as char;
 
         row.push(ColoredChar {
